@@ -1,0 +1,17 @@
+{
+  "name": "health-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal health dashboard — food/macro log, training, sleep, supplements, lifts, streaks.",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.1",
+    "better-sqlite3": "^11.5.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}

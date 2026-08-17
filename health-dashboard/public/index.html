@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Health Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body data-day-type="normal">
+  <div class="board">
+    <header class="board-header">
+      <div class="header-left">
+        <h1 class="board-title">HEALTH BOARD</h1>
+        <div class="board-date" id="board-date">—</div>
+      </div>
+      <div class="header-right">
+        <div class="day-toggle" id="day-toggle" role="group" aria-label="Day type">
+          <button class="day-toggle-btn is-active" data-day-type="normal" type="button">Normal day</button>
+          <button class="day-toggle-btn" data-day-type="shift" type="button">12-hour Shift day</button>
+        </div>
+        <div class="targets-strip">
+          <div class="target-chip">
+            <span class="target-label">KCAL TARGET</span>
+            <span class="target-value mono" id="target-kcal">—</span>
+          </div>
+          <div class="target-chip">
+            <span class="target-label">PROTEIN TARGET</span>
+            <span class="target-value mono" id="target-protein">—</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="board-grid">
+      <!-- FOOD LOG -->
+      <section class="panel panel-food">
+        <h2 class="panel-title">FOOD LOG <span class="panel-sub">plain-English macro estimator</span></h2>
+
+        <form id="food-form" class="food-form">
+          <textarea
+            id="food-input"
+            class="food-input"
+            rows="2"
+            placeholder="e.g. 200g chicken breast, rice, side salad"
+            required
+          ></textarea>
+          <button type="submit" class="btn btn-primary" id="food-submit">Log it</button>
+        </form>
+        <div class="food-status" id="food-status" hidden></div>
+
+        <ul class="food-list" id="food-list"></ul>
+
+        <div class="totals-row">
+          <div class="totals-grid mono">
+            <div><span class="totals-label">KCAL</span><span id="total-kcal">0</span></div>
+            <div><span class="totals-label">PROTEIN</span><span id="total-protein">0g</span></div>
+            <div><span class="totals-label">CARBS</span><span id="total-carbs">0g</span></div>
+            <div><span class="totals-label">FAT</span><span id="total-fat">0g</span></div>
+          </div>
+        </div>
+
+        <div class="progress-block">
+          <div class="progress-row">
+            <div class="progress-label"><span>PROTEIN</span><span class="mono" id="progress-protein-text">0 / 0 g</span></div>
+            <div class="progress-track"><div class="progress-fill" id="progress-protein-fill"></div></div>
+          </div>
+          <div class="progress-row">
+            <div class="progress-label"><span>CALORIES</span><span class="mono" id="progress-kcal-text">0 / 0</span></div>
+            <div class="progress-track"><div class="progress-fill" id="progress-kcal-fill"></div></div>
+          </div>
+        </div>
+
+        <div class="feedback-box" id="feedback-box">—</div>
+      </section>
+
+      <!-- STREAK -->
+      <section class="panel panel-streak">
+        <h2 class="panel-title">STREAK</h2>
+        <div class="streak-counter">
+          <span class="streak-number mono" id="streak-count">0</span>
+          <span class="streak-caption">day streak</span>
+        </div>
+        <div class="streak-strip" id="streak-strip"></div>
+        <p class="streak-hint">Amber/teal = protein target hit that day</p>
+      </section>
+
+      <!-- TRAINING -->
+      <section class="panel panel-training">
+        <h2 class="panel-title">TRAINING CHECKLIST</h2>
+        <ul class="checklist" id="training-list"></ul>
+      </section>
+
+      <!-- SLEEP -->
+      <section class="panel panel-sleep">
+        <h2 class="panel-title">SLEEP</h2>
+        <label class="field-row">
+          <span class="field-label">Hours slept</span>
+          <input type="number" id="sleep-hours" class="mono input-number" min="0" max="24" step="0.25" placeholder="0.0" />
+        </label>
+        <div class="chip-row" id="sleep-chips">
+          <button class="chip" data-key="eyeMask" type="button">Eye mask</button>
+          <button class="chip" data-key="earPlugs" type="button">Ear plugs</button>
+          <button class="chip" data-key="windDown" type="button">Wind-down done</button>
+        </div>
+      </section>
+
+      <!-- SUPPLEMENTS -->
+      <section class="panel panel-supplements">
+        <h2 class="panel-title">SUPPLEMENTS</h2>
+        <ul class="checklist" id="supplements-list"></ul>
+      </section>
+
+      <!-- LIFT LOG -->
+      <section class="panel panel-lifts">
+        <h2 class="panel-title">LIFT LOG <span class="panel-sub">current — persists across days</span></h2>
+        <table class="lift-table">
+          <thead>
+            <tr>
+              <th>Exercise</th>
+              <th>Weight</th>
+              <th>Reps</th>
+            </tr>
+          </thead>
+          <tbody id="lift-table-body"></tbody>
+        </table>
+      </section>
+
+      <!-- NOTE -->
+      <section class="panel panel-note">
+        <h2 class="panel-title">NOTE TO SELF</h2>
+        <textarea id="note-input" class="note-input" rows="4" placeholder="Motivation, adjustments, reminders..."></textarea>
+      </section>
+    </main>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
