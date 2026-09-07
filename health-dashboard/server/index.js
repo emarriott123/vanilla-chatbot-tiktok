@@ -92,10 +92,32 @@ app.put('/api/dashboard/:date', (req, res) => {
   res.json(buildDashboard(date));
 });
 
-// POST /api/dashboard/:date/food  { text }  — estimate macros via Claude, log entry
+function isValidMacros(m) {
+  return (
+    m &&
+    typeof m === 'object' &&
+    ['kcal', 'protein', 'carbs', 'fat'].every((k) => Number.isFinite(Number(m[k])))
+  );
+}
+
+function normalizeMacros(m) {
+  const toNumber = (v) => Math.max(0, Math.round(Number(v) || 0));
+  return {
+    kcal: toNumber(m.kcal),
+    protein: toNumber(m.protein),
+    carbs: toNumber(m.carbs),
+    fat: toNumber(m.fat),
+  };
+}
+
+// POST /api/dashboard/:date/food  { text, macros? }
+// If macros are provided (e.g. logging a saved favorite), they're used as-is —
+// no Claude call needed since the values are already known. Otherwise the
+// text is sent to Claude for estimation, same as before.
 app.post('/api/dashboard/:date/food', async (req, res) => {
   const { date } = req.params;
   const text = (req.body && req.body.text ? String(req.body.text) : '').trim();
+  const providedMacros = req.body && req.body.macros;
 
   if (!text) {
     return res.status(400).json({ error: 'text is required' });
@@ -104,7 +126,9 @@ app.post('/api/dashboard/:date/food', async (req, res) => {
   getOrCreateDay(date);
 
   try {
-    const macros = await estimateMacros(text);
+    const macros = isValidMacros(providedMacros)
+      ? normalizeMacros(providedMacros)
+      : await estimateMacros(text);
     db.prepare(
       `INSERT INTO food_log (date, text, kcal, protein, carbs, fat, created_at)
        VALUES (?, ?, ?, ?, ?, ?, ?)`

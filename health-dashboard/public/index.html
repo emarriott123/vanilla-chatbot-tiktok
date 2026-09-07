@@ -42,6 +42,14 @@
       <section class="panel panel-food">
         <h2 class="panel-title">FOOD LOG <span class="panel-sub">plain-English macro estimator</span></h2>
 
+        <div class="favorites-block">
+          <div class="favorites-header">
+            <span class="favorites-label">FAVORITES</span>
+            <button type="button" class="favorite-add-btn" id="favorite-add-btn">+ Add favorite</button>
+          </div>
+          <div class="favorites-row" id="favorites-row"></div>
+        </div>
+
         <form id="food-form" class="food-form">
           <textarea
             id="food-input"
@@ -137,6 +145,43 @@
         <textarea id="note-input" class="note-input" rows="4" placeholder="Motivation, adjustments, reminders..."></textarea>
       </section>
     </main>
+  </div>
+
+  <div class="modal-overlay" id="favorite-modal" hidden>
+    <div class="modal-box">
+      <h3 class="modal-title" id="favorite-modal-title">Add favorite</h3>
+      <form id="favorite-form">
+        <label class="modal-field">
+          <span>Name</span>
+          <input type="text" id="fav-text" maxlength="80" placeholder="e.g. Chicken breast + rice + veg" required />
+        </label>
+        <div class="modal-grid">
+          <label class="modal-field">
+            <span>Kcal</span>
+            <input type="number" id="fav-kcal" class="mono" min="0" step="1" required />
+          </label>
+          <label class="modal-field">
+            <span>Protein (g)</span>
+            <input type="number" id="fav-protein" class="mono" min="0" step="1" required />
+          </label>
+          <label class="modal-field">
+            <span>Carbs (g)</span>
+            <input type="number" id="fav-carbs" class="mono" min="0" step="1" required />
+          </label>
+          <label class="modal-field">
+            <span>Fat (g)</span>
+            <input type="number" id="fav-fat" class="mono" min="0" step="1" required />
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost btn-danger" id="favorite-delete-btn" hidden>Delete</button>
+          <div class="modal-actions-right">
+            <button type="button" class="btn btn-ghost" id="favorite-cancel-btn">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script src="/app.js"></script>
